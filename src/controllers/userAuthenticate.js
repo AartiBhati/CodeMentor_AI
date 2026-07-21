@@ -23,9 +23,19 @@ const register=async(req,res)=>{
 
         const user=await User.create(req.body);
         
+        const reply={
+            firstName:user.firstName,
+            emailId:user.emailId,
+            _id:user._id
+        }
+
         const token=jwt.sign({_id:user._id,emailId,role:'user'},process.env.JWT_KEY,{expiresIn:60*60});
         res.cookie('token',token,{maxAge:60*60*1000});
-        res.status(201).send("User Registered Successfully");
+
+        res.status(201).json({
+            user:reply,
+            message:"User Registered Successfully"
+        });
          
     }
     catch(err){
@@ -46,13 +56,23 @@ const login=async(req,res)=>{
         const match=bcrypt.compare(password,user.password);
         if(!match)throw new Error("Invalid Credentials");
 
+        const reply={
+            firstName:user.firstName,
+            emailId:user.emailId,
+            _id:user._id
+        }
+
+
         //you need to send the token here too.
         const token=jwt.sign({_id:user._id,emailId,role:user.role},process.env.JWT_KEY,{expiresIn:60*60});
         res.cookie('token',token,{maxAge:60*60*1000});
         res.status(200).send("Login Successful")
 
     }catch(err){
-        res.status(401).send("Error "+err.message);
+        res.status(401).json({
+            user:reply,
+            message:"Login Successully"
+        });
     }
 }
 

@@ -24,5 +24,18 @@ authRouter.delete("/profile",userMiddleware,deleteProfile);
 //admin Register
 authRouter.post('/admin/register',adminMiddleware,adminRegister);
 
+authRouter.get('/check',userMiddleware,(req,res)=>{
+    const reply={
+        firstName:req.result.firstName,
+        emailIs:req.result.emailId,
+        _id:req.result._id
+    }
+
+    res.status(200).json({
+        user:reply,
+        message:"Valid User"
+    })
+})
+
 
 module.exports=authRouter;
