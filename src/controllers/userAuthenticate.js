@@ -5,7 +5,7 @@ const validate=require("../utility/validator");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
 const Submission=require("../models/submission")
-
+// const crypto = require("crypto");
 
 
 const register=async(req,res)=>{
@@ -53,7 +53,7 @@ const login=async(req,res)=>{
         const user=await User.findOne({emailId});
         if(!user)throw new Error("User doesn't exist");
 
-        const match=bcrypt.compare(password,user.password);
+        const match= await bcrypt.compare(password,user.password);
         if(!match)throw new Error("Invalid Credentials");
 
         const reply={
@@ -66,13 +66,15 @@ const login=async(req,res)=>{
         //you need to send the token here too.
         const token=jwt.sign({_id:user._id,emailId,role:user.role},process.env.JWT_KEY,{expiresIn:60*60});
         res.cookie('token',token,{maxAge:60*60*1000});
-        res.status(200).send("Login Successful")
-
-    }catch(err){
-        res.status(401).json({
+        res.status(200).json({
             user:reply,
             message:"Login Successully"
         });
+
+    }catch(err){
+        return res.status(401).json({
+                 message: err.message
+            });
     }
 }
 
@@ -150,4 +152,4 @@ const deleteProfile=async(req,res)=>{
 }
 
 
-module.exports={register,login,logout,getProfile,adminRegister};
+module.exports={register,login,logout,getProfile,adminRegister,deleteProfile};

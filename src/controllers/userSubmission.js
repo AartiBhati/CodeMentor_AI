@@ -90,7 +90,17 @@ const submitCode=async (req,res)=>{
             req.result.problemSolved.push(problemId);
             await req.result.save();
         }
-        res.status(201).send(submittedResult);
+       
+
+        const accepted=(status=='accepted');
+        res.status(201).json({
+            accepted,
+            totalTestCases:submittedResult.testCasesTotal,
+            passedTestCases:testCasesPassed,
+            runtime,
+            memory
+        });
+
 
     }catch(err){
         res.status(500).send("Internal Server Error\n"+err);

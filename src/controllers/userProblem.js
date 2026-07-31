@@ -1,6 +1,7 @@
 const {getLanguageById,submitBatch,submitToken} = require("../utility/problemUtility");
 const Problem=require("../models/problem");
 const Submission = require("../models/submission");
+const User=require('../models/user')
 
 
 const createProblem = async (req,res)=>{
@@ -160,7 +161,7 @@ const getProblemById=async(req,res)=>{
     try{
         if(!id)return res.status(400).send("Id is missing");
 
-        const getProblem=await Problem.findById(id).select('id title description difficulty tags visibleCases startCode');
+        const getProblem=await Problem.findById(id).select('id title description difficulty tags visibleTestCases startCode');
 
         //-hiddentestcase in selct if you want to discard it
         if(!getProblem)
@@ -193,7 +194,9 @@ const allSolvedProblemByUser=async(req,res)=>{
         // const count=req.result.problemSolved.length;
         res.status(200).send(user.problemSolved);
     }catch(err){
-        res.status(500).send("Error "+err.message);
+        return res.status(500).json({
+            message: err.message
+  });
     }
 }
 

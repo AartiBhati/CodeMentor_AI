@@ -51,7 +51,7 @@ const userSchema=new Schema({
 
 userSchema.post('findOneAndDelete',async function(doc){
     if(doc){
-        await mongoose.model('submission').deleteMany({userId:userInfo._id});
+        await mongoose.model('submission').deleteMany({userId:doc._id});
     }
 });
 

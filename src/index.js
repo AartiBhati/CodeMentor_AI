@@ -1,4 +1,6 @@
 require('dotenv').config();
+const dns=require("node:dns");
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
 const express=require("express")
 const app=express();
 
@@ -8,6 +10,13 @@ const authRouter=require('./routes/userAuth');
 const problemRouter=require("./routes/problemCreator");
 const redisclient=require("./config/redis");
 const submitRouter = require('./routes/submit');
+const cors=require('cors')
+
+
+app.use(cors({
+    origin:'http://localhost:5173',
+    credentials:true
+}));
 
 
 app.use(express.json());
@@ -33,7 +42,6 @@ const InitializeConnection=async()=>{
         console.log("Error "+err.message);
     }
 }
-
 
 InitializeConnection();
 
