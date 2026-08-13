@@ -5,8 +5,7 @@ import { Send } from 'lucide-react';
 
 function ChatAi({problem}) {
     const [messages, setMessages] = useState([
-        { role: 'model', content: "Hi, How are you" },
-        { role: 'user', content: "I am Good" }
+        { role: 'model', content: "Hi, How can i help you?" },
     ]);
 
     const { register, handleSubmit, reset,formState: {errors} } = useForm();
@@ -24,7 +23,11 @@ function ChatAi({problem}) {
         try {
             
             const response = await axiosClient.post("/chat/ai", {
-                message: data.message
+                message: data.message,
+                title: problem.title,
+                description: problem.description,
+                testCases: problem.testCases,
+                startCode: problem.startCode
             });
 
            

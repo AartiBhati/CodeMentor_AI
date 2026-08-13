@@ -10,6 +10,7 @@ const authRouter=require('./routes/userAuth');
 const problemRouter=require("./routes/problemCreator");
 const redisclient=require("./config/redis");
 const submitRouter = require('./routes/submit');
+const aiRouter = require("./routes/aiChatting")
 const cors=require('cors')
 
 
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use('/user',authRouter);
 app.use('/problem',problemRouter);
 app.use('/submission',submitRouter);
+app.use('/chat',aiRouter);
 
 
 
