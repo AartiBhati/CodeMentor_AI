@@ -7,6 +7,8 @@ import { logoutUser } from '../authSlice';
 function Homepage() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  console.log("USER FROM REDUX:", user);
+console.log("USER ROLE:", user?.role);
   const [problems, setProblems] = useState([]);
   const [solvedProblems, setSolvedProblems] = useState([]);
   const [filters, setFilters] = useState({

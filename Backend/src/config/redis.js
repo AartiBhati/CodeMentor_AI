@@ -6,8 +6,8 @@ const redisclient = createClient({
     username: 'default',
     password:process.env.REDIS_PASS,
     socket: {
-        host: 'table-door-island-47368.db.redis.io',
-        port: 19819
+        host: 'positive-egg-cornflower-72622.db.redis.io',
+        port: 18869
     }
 });
 
